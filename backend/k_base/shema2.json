@@ -1,0 +1,189 @@
+[
+  {
+    "table_name": "public.tier",
+    "description": "Table de référence des tiers représentant les clients ou prospects de la banque, qu’il s’agisse de personnes physiques ou de personnes morales. Elle centralise les informations d’identification, de contact, de classification commerciale et les dates clés liées à la relation client.",
+    "ddl": "CREATE TABLE public.tier (numerotiers BIGINT, gsm BIGINT, indicatif VARCHAR(255), code_marche VARCHAR(255), code_segment VARCHAR(255), fk_fondsdecommerce VARCHAR(255), numeroidentite VARCHAR(255), prenomenscom VARCHAR(255), nomraisonsociale VARCHAR(255), date_creation DATE, datedenaissance DATE, date_eer DATE, partitiondate DATE);",
+    "columns": [
+      {
+        "name": "numerotiers",
+        "description": "Identifiant unique du tiers dans le système d’information. Cette clé permet de relier un client à ses comptes, contrats et autres objets métiers."
+      },
+      {
+        "name": "gsm",
+        "description": "Numéro de téléphone mobile principal du tiers, utilisé pour le contact client et les communications opérationnelles."
+      },
+      {
+        "name": "indicatif",
+        "description": "Indicatif téléphonique international associé au numéro mobile du tiers, permettant d’interpréter correctement le numéro selon le pays."
+      },
+      {
+        "name": "code_marche",
+        "description": "Code du marché commercial auquel appartient le tiers. Mapping métier: MRC01 = PARTICULIER, MRC02 = PROFESSIONNEL, MRC03 = INSTITUTIONNEL, MRC04 = ENTREPRISE."
+      },
+      {
+        "name": "code_segment",
+        "description": "Code de segmentation commerciale du tiers. Mapping métier: SEG01 = Standard, SEG02 = Junior, SEG03 = Senior, SEG04 = Premium, SEG05 = VIP."
+      },
+      {
+        "name": "fk_fondsdecommerce",
+        "description": "Identifiant du fonds de commerce ou de l’entité commerciale responsable du portefeuille auquel le tiers est rattaché."
+      },
+      {
+        "name": "numeroidentite",
+        "description": "Numéro d’identification officiel du tiers. Pour une personne physique, il peut s’agir d’un numéro de pièce d’identité ; pour une personne morale, d’un identifiant légal ou administratif."
+      },
+      {
+        "name": "prenomenscom",
+        "description": "Prénom du client lorsqu’il s’agit d’une personne physique, ou nom commercial lorsqu’il s’agit d’une personne morale ou d’une enseigne."
+      },
+      {
+        "name": "nomraisonsociale",
+        "description": "Nom de famille du client pour une personne physique, ou raison sociale pour une personne morale."
+      },
+      {
+        "name": "date_creation",
+        "description": "Date de création de l’enregistrement du tiers dans le système source."
+      },
+      {
+        "name": "datedenaissance",
+        "description": "Date de naissance du client lorsqu’il s’agit d’une personne physique. Cette information peut être absente pour une personne morale."
+      },
+      {
+        "name": "date_eer",
+        "description": "Date d’entrée en relation avec l’établissement. Elle marque le début officiel de la relation commerciale ou bancaire avec le tiers."
+      },
+      {
+        "name": "partitiondate",
+        "description": "Date technique de partitionnement des données, utilisée pour l’organisation, le chargement ou l’archivage des enregistrements."
+      }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: un-vers-plusieurs | target: public.Compte | key: numerotiers",
+        "purpose": "Permet de retrouver l’ensemble des comptes bancaires détenus par un tiers donné."
+      },
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.marche | key: code_marche",
+        "purpose": "Permet d’enrichir le tiers avec le libellé métier du marché auquel il appartient."
+      },
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.segmentation | key: code_segment",
+        "purpose": "Permet d’associer au tiers le libellé explicite de son segment commercial."
+      }
+    ]
+  },
+  {
+    "table_name": "public.Compte",
+    "description": "Table contenant les informations de base sur les comptes bancaires détenus par les tiers. Elle stocke l’identification du compte, son statut, sa nature, son rattachement commercial et sa date d’ouverture.",
+    "ddl": "CREATE TABLE public.\"Compte\" (numerotiers BIGINT, numerodecompte BIGINT, numeroelementinterne VARCHAR(255), code_etatcompte VARCHAR(255), naturecompte VARCHAR(255), fk_fondsdecommerce VARCHAR(255), date_ouverture_compte DATE, partitiondate DATE);",
+    "columns": [
+      {
+        "name": "numerotiers",
+        "description": "Identifiant du tiers propriétaire du compte. Cette colonne relie chaque compte à son client dans la table des tiers."
+      },
+      {
+        "name": "numerodecompte",
+        "description": "Identifiant unique du compte bancaire dans le système."
+      },
+      {
+        "name": "numeroelementinterne",
+        "description": "Référence interne ou identifiant technique complémentaire du compte, utilisé dans certains traitements ou systèmes internes."
+      },
+      {
+        "name": "code_etatcompte",
+        "description": "Code représentant l’état du compte, par exemple actif, bloqué, suspendu ou clôturé. Aucun mapping détaillé n’est fourni dans la source actuelle."
+      },
+      {
+        "name": "naturecompte",
+        "description": "Nature ou catégorie du compte bancaire, par exemple compte courant, compte épargne ou autre type de compte produit. Aucun mapping détaillé n’est fourni dans la source actuelle."
+      },
+      {
+        "name": "fk_fondsdecommerce",
+        "description": "Identifiant du fonds de commerce ou de l’unité commerciale à laquelle le compte est rattaché."
+      },
+      {
+        "name": "date_ouverture_compte",
+        "description": "Date officielle d’ouverture du compte bancaire."
+      },
+      {
+        "name": "partitiondate",
+        "description": "Date technique de partitionnement de la donnée, utilisée pour l’organisation et la gestion des chargements."
+      }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: un-vers-plusieurs | target: public.Package | key: numerodecompte",
+        "purpose": "Permet d’identifier les packages, offres ou contrats rattachés à un compte bancaire."
+      }
+    ]
+  },
+  {
+    "table_name": "public.Package",
+    "description": "Table des packages ou contrats produits souscrits sur un compte bancaire. Elle permet d’identifier le produit associé au compte ainsi que l’état du contrat à une date donnée.",
+    "ddl": "CREATE TABLE public.\"Package\" (numero_compte BIGINT, etat_contrat VARCHAR(255), code_produit VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      {
+        "name": "numero_compte",
+        "description": "Identifiant du compte bancaire support du package ou du contrat."
+      },
+      {
+        "name": "etat_contrat",
+        "description": "Statut du contrat ou du package. Mapping métier: VALIDE = contrat actif, RESILIE = contrat clôturé ou terminé."
+      },
+      {
+        "name": "code_produit",
+        "description": "Code technique du produit ou de l’offre souscrite dans le cadre du package."
+      },
+      {
+        "name": "partitiondate",
+        "description": "Date technique de partitionnement de l’enregistrement, utilisée pour l’organisation des données dans le stockage."
+      }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.Compte | key: numero_compte",
+        "purpose": "Permet de rattacher chaque package au compte bancaire sur lequel il est souscrit."
+      }
+    ]
+  },
+  {
+    "table_name": "public.marche",
+    "description": "Table de référence des marchés commerciaux. Elle fournit le libellé métier associé à chaque code marché utilisé dans les données clients.",
+    "ddl": "CREATE TABLE public.marche (code_marche VARCHAR(255), libelle_marche VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      {
+        "name": "code_marche",
+        "description": "Code technique du marché commercial utilisé dans les tables métiers pour catégoriser les tiers. Exemples connus: MRC01 = PARTICULIER, MRC02 = PROFESSIONNEL, MRC03 = INSTITUTIONNEL, MRC04 = ENTREPRISE."
+      },
+      {
+        "name": "libelle_marche",
+        "description": "Libellé explicite du marché correspondant au code, par exemple PARTICULIER, PROFESSIONNEL, INSTITUTIONNEL ou ENTREPRISE."
+      },
+      {
+        "name": "partitiondate",
+        "description": "Date technique de partitionnement de la table de référence."
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "table_name": "public.segmentation",
+    "description": "Table de référence des segments commerciaux ou marketing. Elle permet de traduire les codes de segment en libellés compréhensibles pour l’analyse métier.",
+    "ddl": "CREATE TABLE public.segmentation (code_segment VARCHAR(255), libellesegment VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      {
+        "name": "code_segment",
+        "description": "Code technique du segment attribué à un tiers pour sa classification commerciale. Exemples connus: SEG01 = Standard, SEG02 = Junior, SEG03 = Senior, SEG04 = Premium, SEG05 = VIP."
+      },
+      {
+        "name": "libellesegment",
+        "description": "Libellé métier du segment correspondant, par exemple Standard, Junior, Senior, Premium ou VIP."
+      },
+      {
+        "name": "partitiondate",
+        "description": "Date technique de partitionnement de la donnée de référence."
+      }
+    ],
+    "relationships": []
+  }
+]

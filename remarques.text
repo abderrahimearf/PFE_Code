@@ -1,0 +1,88 @@
+Affiche la liste des villes (customer_city) uniques où habitent les clients de l'état de 'SP'
+
+
+
+Quels sont les différents statuts de commande (order_status) disponibles dans la base ?
+
+
+
+
+Quel est le prix total moyen des articles (price) pour chaque catégorie de produit ?
+
+
+Donne-moi le top 5 des catégories de produits en anglais (product_category_name_english) ayant généré le plus de chiffre d'affaires en 2017.
+
+Trouve l'ID unique  et leurs villes des clients leur noms et aussi le nombre des commandes effectués qui ont effectué plus de 2 commandes avec un statut 'delivered' et qui ont utilisé la 'carte de crédit' (credit_card) comme mod
+e de paiement
+
+
+
+Trouver pour chaque ville le nombre total de clients ainsi que le montant total dépensé par ces clients, en joignant les tables customers, orders et order_payments, en ne considérant que les commandes livrées, puis afficher les villes avec le total des dépenses classé par ordre décroissant afin d’identifier les villes qui génèrent le plus de revenus.
+
+
+
+
+
+Combien de tiers existent dans la table ?
+
+
+Afficher les tiers avec leur pays de résidence
+
+Moyenne de lieukyc par pays de résidence
+
+Nombre de comptes par type de personne (PP / PM)
+
+Pour chaque pays de résidence, combien de comptes existent pour les personnes physiques (PP) dont la prochaine mise à jour KYC (dateprochmajkyc) est prévue après le 01/01/2024, et quelle est la moyenne de lieukyc pour ces tiers ?
+
+
+deux possibilité pou construire mon dashbord je epeuet demader a l ia de genrer mon dasgporrd en selectioenent uen conversataion et il va faire tus suee le dashboard voila une possibilite et il y une autre possibilite c est drag and drop les plot depuis le chat vers la page de dasgord mainete je veus realiser e deuxime c est drag and drop ce que je veux et le mettre dans le dashbaoard donc essyer de bien donner les 2 fcier jsx complet qui peremet e faire ca auusi je veux que t garde la logique ettous ce que j ai dans hatpage comme il est reien chager juste cette partie qui va travailler c est drag annd drop et donner auusi me fcier dashord auusi complet et auusi dans cette dashord je veux une buuton qu milie qqou comme tu veuet pour genere dashbord avec ia c est ce que je vaias faire par la suite maie amainet c est suelemenet drag and drop et voile mes deux fichesr que tu doit me donne complet
+
+
+
+
+DIMINUERE LA TAILLE DE WINGHTS IL VA ETRE UN PEUET PLUS MOIS QUE CA PLUS MOI ET COUVRE TOUS L E PLOT AVEC TOUS DONC VOILA CE QUEE JE VEUX DONC ESSYER DE CORRIGER CA ET DONNER LE FCIER JSX COMPLET 
+
+
+dans cette ficher il y a 2 chose a regler la premiere dans la visualistion c est de faire un bulle doit avaoir 3 colones et pas 2 comme les autres voila le premeer les deuxime c est de faiar la mme chose comme dans visualistion pour les donnes masque ou voir mais le button exporter doit exete toujours la il ets pas defaut visbsles les donnes mais si je masque il doivenet rester masque cest ca ce que je evux donc essyer de corriger et donner moi le code comple jsx 
+
+
+
+
+
+
+
+
+
+
+
+
+uvicorn main:app --reload
+
+z*XvTj8t9b$DB-5
+email_password = "ztln xamg fypp mdjd"
+
+
+LE BUTTON NOUVELLE CONVERSATION CA MARHE PAS ESSSYER DE DONNER LA PARTIE DE CODE A CHANGER ET OU JE VAIS METTRE DANS LES DUEX FIER SOIT SUIDBARE OU CHATPGE 
+
+
+
+
+// --- TROUVE CE BLOC DANS TON RETURN ---
+<Sidebar 
+  isMobile={window.innerWidth <= 980}
+  conversations={conversations}
+  activeChatId={activeChatId}
+  handleConversationSelect={setActiveChatId}
+  
+  // ICI : Vérifie que c'est bien écrit comme ça
+  createNewChat={createNewChat} 
+  
+  sidebarSettings={sidebarSettings}
+  updateSidebarSetting={updateSidebarSetting}
+  formatDate={(d) => new Date(d).toLocaleDateString('fr-FR')}
+  deleteConversation={(id) => setConversations(prev => prev.filter(c => c.id !== id))}
+/>
+
+
+
+c est pas ca ce que je veux je veux decleyer les 2 client cloud et ocle et ecrire le code noramle si je veux cha ger je veyx jyse changer dans la rtie de generetil clinetlocle par client cloud ou l inverse c est ca ce que je veux ni plus ni mois 

@@ -1,0 +1,77 @@
+:root {
+  --primary-blue: #001f3f; /* Bleu foncé */
+  --accent-red: #d90429;   /* Rouge */
+  --bg-light: rgb(125, 167, 164);
+  --border-color: #e2e8f0;
+  --text-dark: #000814;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, #root {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Gradient background */
+  background: rgb(251, 251, 251)
+}
+
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Sidebar Style */
+.sidebar {
+  width: 280px;
+
+  /* gradient sidebar */
+  background: linear-gradient(
+    to bottom,
+    var(--primary-blue),
+    var(--text-dark)
+  );
+
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: white;
+}
+
+.sidebar-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+.btn-new-chat {
+  background: linear-gradient(
+    to right,
+    var(--accent-red),
+    #ff4d6d
+  );
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.history-item-active {
+  background: rgba(255,255,255,0.1);
+  border-left: 4px solid var(--accent-red);
+  padding: 12px;
+  border-radius: 0 12px 12px 0;
+}

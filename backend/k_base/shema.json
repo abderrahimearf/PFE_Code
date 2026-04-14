@@ -1,0 +1,96 @@
+[
+  {
+    "table_name": "public.tier",
+    "description": "Référentiel des clients (tiers) personnes physiques et morales.",
+    "ddl": "CREATE TABLE public.tier (numerotiers BIGINT, gsm BIGINT, indicatif VARCHAR(255), code_marche VARCHAR(255), code_segment VARCHAR(255), fk_fondsdecommerce VARCHAR(255), numeroidentite VARCHAR(255), prenomenscom VARCHAR(255), nomraisonsociale VARCHAR(255), date_creation DATE, datedenaissance DATE, date_eer DATE, partitiondate DATE);",
+    "columns": [
+      { "name": "numerotiers", "description": "Identifiant unique du tiers." },
+      { "name": "gsm", "description": "Numéro de téléphone mobile." },
+      { "name": "indicatif", "description": "Indicatif téléphonique pays." },
+      { "name": "code_marche", "description": "Code marché. " },
+      { "name": "code_segment", "description": "Code segment. " },
+      { "name": "fk_fondsdecommerce", "description": "Clé étrangère vers le fonds de commerce." },
+      { "name": "numeroidentite", "description": "Numéro de pièce d'identité ou identifiant légal." },
+      { "name": "prenomenscom", "description": "Prénom ou nom commercial." },
+      { "name": "nomraisonsociale", "description": "Nom patronymique ou raison sociale." },
+      { "name": "date_creation", "description": "Date de création du tiers." },
+      { "name": "datedenaissance", "description": "Date de naissance du client." },
+      { "name": "date_eer", "description": "Date d'entrée en relation." },
+      { "name": "partitiondate", "description": "Date de partition des données." }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: un-vers-plusieurs | target: public.Compte | key: numerotiers",
+        "purpose": "Lister les comptes bancaires d'un client."
+      },
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.marche | key: code_marche",
+        "purpose": "Obtenir le libellé du marché."
+      },
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.segmentation | key: code_segment",
+        "purpose": "Obtenir le libellé de la segmentation."
+      }
+    ]
+  },
+  {
+    "table_name": "public.Compte",
+    "description": "Informations sur les comptes bancaires.",
+    "ddl": "CREATE TABLE public.\"Compte\" (numerotiers BIGINT, numerodecompte BIGINT, numeroelementinterne VARCHAR(255), code_etatcompte VARCHAR(255), naturecompte VARCHAR(255), fk_fondsdecommerce VARCHAR(255), date_ouverture_compte DATE, partitiondate DATE);",
+    "columns": [
+      { "name": "numerotiers", "description": "Lien vers le propriétaire (table tier)." },
+      { "name": "numerodecompte", "description": "Identifiant unique du compte." },
+      { "name": "numeroelementinterne", "description": "Référence interne du compte." },
+      { "name": "code_etatcompte", "description": "Statut du compte (ex: Actif, Clos)." },
+      { "name": "naturecompte", "description": "Type de compte (ex: Courant, Epargne)." },
+      { "name": "fk_fondsdecommerce", "description": "Référence au fonds de commerce rattaché." },
+      { "name": "date_ouverture_compte", "description": "Date d'ouverture officielle." },
+      { "name": "partitiondate", "description": "Date de partition." }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: un-vers-plusieurs | target: public.Package | key: numerodecompte",
+        "purpose": "Consulter les offres et packages liés au compte."
+      }
+    ]
+  },
+  {
+    "table_name": "public.Package",
+    "description": "Contrats et packages produits souscrits.",
+    "ddl": "CREATE TABLE public.\"Package\" (numero_compte BIGINT, etat_contrat VARCHAR(255), code_produit VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      { "name": "numero_compte", "description": "Référence du compte support." },
+      { "name": "etat_contrat", "description": "Statut du contrat. Valeurs: 'VALIDE' (Actif), 'RESILIE' (Clôturé)." },
+      { "name": "code_produit", "description": "Code technique du produit souscrit." },
+      { "name": "partitiondate", "description": "Date de partition." }
+    ],
+    "relationships": [
+      {
+        "technical_details": "type: plusieurs-vers-un | target: public.Compte | key: numero_compte",
+        "purpose": "Identifier le compte lié au package."
+      }
+    ]
+  },
+  {
+    "table_name": "public.marche",
+    "description": "Table de référence pour les libellés de marchés.",
+    "ddl": "CREATE TABLE public.marche (code_marche VARCHAR(255), libelle_marche VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      { "name": "code_marche", "description": "Code technique (ex: MRC01)." },
+      { "name": "libelle_marche", "description": "Nom du marché valeurs possibles : PARTICULIER, PROFESSIONNEL, INSTITUTIONNEL,ENTREPRISE." },
+      { "name": "partitiondate", "description": "Date de partition." }
+    ],
+    "relationships": []
+  },
+  {
+    "table_name": "public.segmentation",
+    "description": "Table de référence pour les libellés de segmentation client.",
+    "ddl": "CREATE TABLE public.segmentation (code_segment VARCHAR(255), libellesegment VARCHAR(255), partitiondate DATE);",
+    "columns": [
+      { "name": "code_segment", "description": "Code technique (ex: SEG01)." },
+      { "name": "libellesegment", "description": "Nom du segment ,valeurs possibles Standard, Senior, VIP,Premium." },
+      { "name": "partitiondate", "description": "Date de partition." }
+    ],
+    "relationships": []
+  }
+]
